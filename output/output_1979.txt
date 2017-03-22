@@ -1,0 +1,2 @@
+peace	59080
+violence	27142
