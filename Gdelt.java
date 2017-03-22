@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 
 public class Gdelt extends Configured implements Tool {
     public static void main(String[] args) throws Exception {
-        int res = ToolRunner.run(new Configuration(), new TitleCount(), args);
+        int res = ToolRunner.run(new Configuration(), new Gdelt(), args);
         System.exit(res);
     }
 
@@ -43,7 +43,7 @@ public class Gdelt extends Configured implements Tool {
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        job.setJarByClass(TitleCount.class);
+        job.setJarByClass(Gdelt.class);
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
@@ -73,7 +73,7 @@ public class Gdelt extends Configured implements Tool {
             Configuration conf = context.getConfiguration();
 
             String violenceCodesPath = conf.get("voilence");
-            String violenceCodesPath = conf.get("peace");
+            String peaceCodesPath = conf.get("peace");
 
             this.violence_codes = Arrays.asList(readHDFSFile(violenceCodesPath, conf).split("\n"));
             this.peace_codes = Arrays.asList(readHDFSFile(peaceCodesPath, conf).split("\n"));
@@ -82,7 +82,7 @@ public class Gdelt extends Configured implements Tool {
 
         @Override
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            String event = value.toString().split("\t");
+            String[] event = value.toString().split("\t");
             String code = event[26];
             System.out.println("CODE: " + code);
 
