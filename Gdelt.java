@@ -72,7 +72,7 @@ public class Gdelt extends Configured implements Tool {
 
             Configuration conf = context.getConfiguration();
 
-            String violenceCodesPath = conf.get("voilence");
+            String violenceCodesPath = conf.get("violence");
             String peaceCodesPath = conf.get("peace");
 
             this.violence_codes = Arrays.asList(readHDFSFile(violenceCodesPath, conf).split("\n"));
