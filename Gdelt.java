@@ -87,13 +87,28 @@ public class Gdelt extends Configured implements Tool {
             System.out.println("CODE: " + code);
 
             if(violence_codes.contains(code)){
-              context.write(new Text("violence"), new IntWritable(1));
+              context.write(new Text("total_violence"), new IntWritable(1));
+              if(code.startsWith("20")){
+                context.write(new Text("UNCONVENTIONAL_MASS_VIOLENCE"), new IntWritable(1));
+              }else if (code.startsWith("19")) {
+                context.write(new Text("FIGHT"), new IntWritable(1));
+              } else{
+                context.write(new Text("ASSAULT"), new IntWritable(1));
+              }
             } else if (peace_codes.contains(code)) {
-              context.write(new Text("peace"), new IntWritable(1));
+              context.write(new Text("total_peace"), new IntWritable(1));
+              if(code.startsWith("07")){
+                context.write(new Text("PROVIDE_AID"), new IntWritable(1));
+              } else if (code.startsWith("08")) {
+                context.write(new Text("YIELD"), new IntWritable(1));
+              } else if (code.startsWith("05")) {
+                context.write(new Text("ENGAGE_IN_DIPLOMATIC_COOPERATION"), new IntWritable(1));
+              } else{
+                context.write(new Text("CONSULT"), new IntWritable(1));
+              }
             } else{
 
             }
-
         }
     }
 
